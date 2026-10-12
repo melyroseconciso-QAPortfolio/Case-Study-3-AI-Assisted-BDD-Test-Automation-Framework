@@ -47,6 +47,18 @@ public final class Config {
         return Boolean.parseBoolean(get("stepScreenshots"));
     }
 
+    public static String apiBaseUrl() {
+        return get("apiBaseUrl");
+    }
+
+    public static String apiUsername() {
+        return get("apiUsername");
+    }
+
+    public static String apiPassword() {
+        return get("apiPassword");
+    }
+
     public static int timeoutSeconds() {
         return Integer.parseInt(get("timeoutSeconds"));
     }

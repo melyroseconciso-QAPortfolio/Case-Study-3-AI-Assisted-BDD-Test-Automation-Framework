@@ -17,7 +17,10 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 
-/** Runs automatically before and after the whole run, every scenario and every step. */
+/**
+ * Runs automatically before and after the whole run, and around every browser (@ui) scenario.
+ * API (@api) scenarios do not need a browser, so they skip the browser hooks.
+ */
 public class Hooks {
 
     /** Once per run: writes the "Environment" box shown on the Allure report home page. */
@@ -40,20 +43,20 @@ public class Hooks {
         }
     }
 
-    @Before
+    @Before("@ui")
     public void setUp() {
         DriverFactory.start();
         VideoRecorder.start();
     }
 
-    @AfterStep
+    @AfterStep("@ui")
     public void afterEachStep(Scenario scenario) {
         if (Config.stepScreenshots()) {
             attachScreenshot(scenario, "Step screenshot");
         }
     }
 
-    @After
+    @After("@ui")
     public void tearDown(Scenario scenario) {
         if (scenario.isFailed()) {
             attachScreenshot(scenario, "Screenshot on failure");

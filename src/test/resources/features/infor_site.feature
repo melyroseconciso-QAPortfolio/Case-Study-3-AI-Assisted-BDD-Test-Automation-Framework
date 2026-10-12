@@ -1,3 +1,4 @@
+@ui
 Feature: Infor website basic health checks
   As a QA engineer
   I want to confirm the key parts of the Infor website work

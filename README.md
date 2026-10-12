@@ -2,17 +2,21 @@
 
 Self-initiated project to build hands-on test automation engineering skills, developed with AI assistance and run against the public Infor website.
 
-A beginner-friendly web test automation framework, built with **Java, Selenium, Cucumber (BDD), Maven and Allure**.
-It runs simple, read-only health checks against the public Infor website (https://www.infor.com).
+A beginner-friendly web test automation framework, built with **Java, Selenium, Rest Assured, Cucumber (BDD), Maven and Allure**.
+It has two kinds of tests:
+
+- **Browser (UI) tests** – read-only health checks against the public Infor website (https://www.infor.com), tagged `@ui`
+- **API tests** – create, read, update and delete checks against the public practice API Restful-Booker (https://restful-booker.herokuapp.com), tagged `@api`
 
 ## Features
 
-* Page Object Model + BDD (plain-English tests in `.feature` files)
-* Config-driven (website, browser, headless mode, timeouts in `config.properties`)
-* Screenshot attached automatically on failure
-* **Allure reports** (dashboard, charts, history, screenshots, tags)
-* **Parallel execution** (3 browsers at once)
-* Optional **screen video recording** and **step-by-step screenshots**
+- Page Object Model + BDD (plain-English tests in `.feature` files)
+- **API testing** with Rest Assured: GET, POST, PUT, DELETE, login, negative tests; every request and response is attached to the Allure report
+- Config-driven (website, browser, headless mode, timeouts in `config.properties`)
+- Screenshot attached automatically on failure
+- **Allure reports** (dashboard, charts, history, screenshots, tags)
+- **Parallel execution** (3 browsers at once)
+- Optional **screen video recording** and **step-by-step screenshots**
 
 ## One-time setup (about 20 minutes)
 
@@ -21,12 +25,10 @@ It runs simple, read-only health checks against the public Infor website (https:
 3. **Install Google Chrome** (the framework downloads the matching driver automatically).
 4. **Install a code editor** – IntelliJ IDEA Community or VS Code (with the "Extension Pack for Java").
 5. Check it worked – open a terminal and run:
-
-```
+   ```
    java -version
    mvn -version
    ```
-
    Both should print a version number (Java 17 or higher).
 
 ## Run the tests
@@ -39,15 +41,17 @@ mvn clean test
 
 The first run downloads libraries, so it takes a few minutes. (`clean` removes old results first.)
 
-|What you want|Command|
-|-|-|
-|Run everything (3 in parallel)|`mvn clean test`|
-|Only quick checks|`mvn clean test -Dcucumber.filter.tags="@smoke"`|
-|One test at a time|`mvn clean test -Dcucumber.execution.parallel.enabled=false`|
-|Watch the browser|`mvn clean test -Dheadless=false -Dcucumber.execution.parallel.enabled=false`|
-|Use Firefox|`mvn clean test -Dbrowser=firefox`|
-|Screenshot after every step|`mvn clean test -DstepScreenshots=true`|
-|Record a screen video|`mvn clean test -Dheadless=false -Drecord=true -Dcucumber.execution.parallel.enabled=false`|
+| What you want | Command |
+|---|---|
+| Run everything (3 in parallel) | `mvn clean test` |
+| Only browser tests | `mvn clean test -Dcucumber.filter.tags="@ui"` |
+| Only API tests (no browser needed) | `mvn clean test -Dcucumber.filter.tags="@api"` |
+| Only quick checks | `mvn clean test -Dcucumber.filter.tags="@smoke"` |
+| One test at a time | `mvn clean test -Dcucumber.execution.parallel.enabled=false` |
+| Watch the browser | `mvn clean test -Dheadless=false -Dcucumber.execution.parallel.enabled=false` |
+| Use Firefox | `mvn clean test -Dbrowser=firefox` |
+| Screenshot after every step | `mvn clean test -DstepScreenshots=true` |
+| Record a screen video | `mvn clean test -Dheadless=false -Drecord=true -Dcucumber.execution.parallel.enabled=false` |
 
 ## See the results
 
@@ -62,7 +66,7 @@ The first time, Maven downloads the Allure tool, which takes a minute.
 
 **Simple HTML report** – open `target/cucumber-reports/report.html`.
 
-**Videos** (only when recording is on) – `target/videos/*.avi`. These are standard AVI files that play in Windows Media Player or VLC.
+**Videos** (only when recording is on) – `target/videos/*.avi`. These are standard AVI (MJPG) files that play in Windows Media Player or VLC.
 
 ## How the project is organised
 
@@ -71,10 +75,16 @@ src/test/resources/features/   <- Tests written in plain English (.feature files
 src/test/java/.../steps/       <- Java code behind each plain-English sentence, plus Hooks
 src/test/java/.../pages/       <- Page Objects: how to find things on each page
 src/test/java/.../core/        <- Browser start-up, settings, video recorder
+src/test/java/.../api/         <- ApiClient: how to talk to the API (like a Page Object for APIs)
 src/test/java/.../runner/      <- The "start button" Maven runs
 src/test/resources/config.properties         <- Website address, browser, timeouts, options
 src/test/resources/junit-platform.properties <- Reports and parallel settings
 ```
+
+## Notes on the API tests
+
+Restful-Booker is a shared public practice service. It resets itself regularly and can occasionally be slow or unavailable,
+so an API failure is not always a framework problem. The login credentials in `config.properties` are the ones published in its documentation.
 
 ## If a test fails
 
@@ -84,11 +94,10 @@ Be considerate: these tests only read pages. Do not add tests that submit forms 
 
 ## Roadmap
 
-* \[x] Phase 1-3: Framework core + BDD
-* \[x] Phase 4: Allure reporting, parallel execution, screenshots and optional video
-* \[ ] Phase 5: API tests with Rest Assured
-* \[ ] Phase 6: Mobile (Appium) and BrowserStack
-* \[ ] Phase 7: Dockerfile and GitLab CI/CD pipeline
-* \[ ] Phase 8: Kubernetes/Helm Selenium Grid, UiPath bot
-* \[ ] Phase 9: AI-assisted failure analysis
-
+- [x] Phase 1-3: Framework core + BDD
+- [x] Phase 4: Allure reporting, parallel execution, screenshots and optional video
+- [x] Phase 5: API tests with Rest Assured
+- [ ] Phase 6: Mobile (Appium) and BrowserStack
+- [ ] Phase 7: Dockerfile and GitLab CI/CD pipeline
+- [ ] Phase 8: Kubernetes/Helm Selenium Grid, UiPath bot
+- [ ] Phase 9: AI-assisted failure analysis
