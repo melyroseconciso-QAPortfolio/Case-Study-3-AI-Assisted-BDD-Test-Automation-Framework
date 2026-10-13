@@ -11,6 +11,7 @@ It has two kinds of tests:
 ## Features
 
 - Page Object Model + BDD (plain-English tests in `.feature` files)
+- **Mobile testing** with Chrome device emulation (Pixel 7, iPhone 12 Pro, iPad Air): screen size, viewport tag and sideways-overflow checks
 - **API testing** with Rest Assured: GET, POST, PUT, DELETE, login, negative tests; every request and response is attached to the Allure report
 - Config-driven (website, browser, headless mode, timeouts in `config.properties`)
 - Screenshot attached automatically on failure
@@ -45,6 +46,7 @@ The first run downloads libraries, so it takes a few minutes. (`clean` removes o
 |---|---|
 | Run everything (3 in parallel) | `mvn clean test` |
 | Only browser tests | `mvn clean test -Dcucumber.filter.tags="@ui"` |
+| Only mobile tests | `mvn clean test -Dcucumber.filter.tags="@mobile"` |
 | Only API tests (no browser needed) | `mvn clean test -Dcucumber.filter.tags="@api"` |
 | Only quick checks | `mvn clean test -Dcucumber.filter.tags="@smoke"` |
 | One test at a time | `mvn clean test -Dcucumber.execution.parallel.enabled=false` |
@@ -97,7 +99,8 @@ Be considerate: these tests only read pages. Do not add tests that submit forms 
 - [x] Phase 1-3: Framework core + BDD
 - [x] Phase 4: Allure reporting, parallel execution, screenshots and optional video
 - [x] Phase 5: API tests with Rest Assured
-- [ ] Phase 6: Mobile (Appium) and BrowserStack
+- [x] Phase 6a: Mobile device emulation (Chrome)
+- [ ] Phase 6b: BrowserStack real devices, Appium
 - [ ] Phase 7: Dockerfile and GitLab CI/CD pipeline
 - [ ] Phase 8: Kubernetes/Helm Selenium Grid, UiPath bot
 - [ ] Phase 9: AI-assisted failure analysis

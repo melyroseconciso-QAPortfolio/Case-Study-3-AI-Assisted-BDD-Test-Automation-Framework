@@ -18,8 +18,8 @@ public final class ApiClient {
     private static RequestSpecification request() {
         return RestAssured.given()
             .baseUri(Config.apiBaseUrl())
-	    .header("Content-Type", "application/json")
-	    .header("Accept", "application/json")
+            .header("Content-Type", "application/json")
+            .header("Accept", "application/json")
             .filter(new AllureRestAssured());
     }
 

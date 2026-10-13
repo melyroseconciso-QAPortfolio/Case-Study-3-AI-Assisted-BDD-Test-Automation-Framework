@@ -20,6 +20,7 @@ import org.openqa.selenium.WebDriver;
 /**
  * Runs automatically before and after the whole run, and around every browser (@ui) scenario.
  * API (@api) scenarios do not need a browser, so they skip the browser hooks.
+ * @mobile scenarios start their own emulated device in a step, so they skip the desktop start-up.
  */
 public class Hooks {
 
@@ -43,7 +44,7 @@ public class Hooks {
         }
     }
 
-    @Before("@ui")
+    @Before("@ui and not @mobile")
     public void setUp() {
         DriverFactory.start();
         VideoRecorder.start();
