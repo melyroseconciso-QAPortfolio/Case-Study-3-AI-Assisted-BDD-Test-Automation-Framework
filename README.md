@@ -7,7 +7,7 @@ It has three kinds of tests:
 
 - **Browser (UI) tests** – read-only health checks against the public Infor website (https://www.infor.com), tagged `@ui`
 - **API tests** – create, read, update and delete checks against the public practice API Restful-Booker (https://restful-booker.herokuapp.com), tagged `@api`
-- **Mobile tests** – mobile emulation checks with Chrome device (Pixel 7, iPhone 12 Pro, iPad Air), tagged `@mobile`
+- **Mobile tests** – mobile device emulation checks with Chrome (Pixel 7, iPhone 12 Pro, iPad Air), tagged `@mobile`
 
 ## Features
 
