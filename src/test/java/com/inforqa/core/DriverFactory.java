@@ -58,7 +58,7 @@ public final class DriverFactory {
         if (Config.headless()) {
             options.addArguments("--headless=new");
         }
-        options.addArguments("--disable-gpu", "--no-sandbox");
+        options.addArguments("--disable-gpu", "--no-sandbox", "--disable-dev-shm-usage");
         if (!mobile) {
             options.addArguments("--window-size=1920,1080");
         }

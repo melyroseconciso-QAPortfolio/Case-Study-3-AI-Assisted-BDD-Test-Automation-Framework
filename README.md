@@ -3,15 +3,16 @@
 Self-initiated project to build hands-on test automation engineering skills, developed with AI assistance and run against the public Infor website.
 
 A beginner-friendly web test automation framework, built with **Java, Selenium, Rest Assured, Cucumber (BDD), Maven and Allure**.
-It has three kinds of tests:
+It has two kinds of tests:
 
 - **Browser (UI) tests** – read-only health checks against the public Infor website (https://www.infor.com), tagged `@ui`
 - **API tests** – create, read, update and delete checks against the public practice API Restful-Booker (https://restful-booker.herokuapp.com), tagged `@api`
-- **Mobile tests** – mobile device emulation checks with Chrome (Pixel 7, iPhone 12 Pro, iPad Air), tagged `@mobile`
 
 ## Features
 
 - Page Object Model + BDD (plain-English tests in `.feature` files)
+- **CI/CD pipelines** (GitHub Actions and GitLab CI/CD): smoke tests gate the full regression, and the Allure report is published automatically
+- **Docker**: run the whole framework in a container, with nothing installed except Docker
 - **Mobile testing** with Chrome device emulation (Pixel 7, iPhone 12 Pro, iPad Air): screen size, viewport tag and sideways-overflow checks
 - **API testing** with Rest Assured: GET, POST, PUT, DELETE, login, negative tests; every request and response is attached to the Allure report
 - Config-driven (website, browser, headless mode, timeouts in `config.properties`)
@@ -84,6 +85,25 @@ src/test/resources/config.properties         <- Website address, browser, timeou
 src/test/resources/junit-platform.properties <- Reports and parallel settings
 ```
 
+## Run in Docker (optional)
+
+With Docker Desktop installed, from the project folder:
+
+```
+docker build -t inforqa-tests .
+docker run --rm --shm-size=1g -v "%cd%\target:/app/target" inforqa-tests
+```
+
+(`%cd%` works in Windows Command Prompt; use `$(pwd)` on Mac/Linux.) Results appear in your local `target` folder,
+so `mvn allure:serve` still works. Add arguments to run a subset, e.g. `docker run ... inforqa-tests -Dcucumber.filter.tags="@api"`.
+
+## CI/CD pipelines
+
+- **GitHub Actions** (`.github/workflows/tests.yml`): runs on every push to `main`, on pull requests, and on demand.
+  Stage 1 runs the `@smoke` tests; only if they pass does the full regression run (a quality gate).
+  The Allure report is saved with each run and published to GitHub Pages.
+- **GitLab CI/CD** (`.gitlab-ci.yml`): same flow with `smoke`, `regression` and `report` stages.
+
 ## Notes on the API tests
 
 Restful-Booker is a shared public practice service. It resets itself regularly and can occasionally be slow or unavailable,
@@ -102,6 +122,6 @@ Be considerate: these tests only read pages. Do not add tests that submit forms 
 - [x] Phase 5: API tests with Rest Assured
 - [x] Phase 6a: Mobile device emulation (Chrome)
 - [ ] Phase 6b: BrowserStack real devices, Appium
-- [ ] Phase 7: Dockerfile and GitLab CI/CD pipeline
+- [x] Phase 7: Dockerfile, GitHub Actions and GitLab CI/CD pipelines
 - [ ] Phase 8: Kubernetes/Helm Selenium Grid, UiPath bot
 - [ ] Phase 9: AI-assisted failure analysis
