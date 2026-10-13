@@ -5,6 +5,7 @@ Self-initiated project to build hands-on test automation engineering skills, dev
 A beginner-friendly web test automation framework, built with **Java, Selenium, Rest Assured, Cucumber (BDD), Maven and Allure**.
 It has two kinds of tests:
 
+- **Live test report** - https://melyroseconciso-qaportfolio.github.io/inforqa-test-automation/#
 - **Browser (UI) tests** – read-only health checks against the public Infor website (https://www.infor.com), tagged `@ui`
 - **API tests** – create, read, update and delete checks against the public practice API Restful-Booker (https://restful-booker.herokuapp.com), tagged `@api`
 
