@@ -3,10 +3,11 @@
 Self-initiated project to build hands-on test automation engineering skills, developed with AI assistance and run against the public Infor website.
 
 A beginner-friendly web test automation framework, built with **Java, Selenium, Rest Assured, Cucumber (BDD), Maven and Allure**.
-It has two kinds of tests:
+It has three kinds of tests:
 
 - **Browser (UI) tests** – read-only health checks against the public Infor website (https://www.infor.com), tagged `@ui`
 - **API tests** – create, read, update and delete checks against the public practice API Restful-Booker (https://restful-booker.herokuapp.com), tagged `@api`
+- **Mobile tests** – mobile emulation checks with Chrome device (Pixel 7, iPhone 12 Pro, iPad Air), tagged `@mobile`
 
 ## Features
 
