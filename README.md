@@ -5,7 +5,7 @@ Self-initiated project to build hands-on test automation engineering skills, dev
 A beginner-friendly web test automation framework, built with **Java, Selenium, Rest Assured, Cucumber (BDD), Maven and Allure**.
 It has two kinds of tests:
 
-- **Live test report** - https://melyroseconciso-qaportfolio.github.io/case-study-3-ai-assisted-bdd-test-automation-framework/#
+- **Live test report** - https://melyroseconciso-qaportfolio.github.io/Case-Study-3-AI-Assisted-BDD-Test-Automation-Framework/
 - **Browser (UI) tests** – read-only health checks against the public Infor website (https://www.infor.com), tagged `@ui`
 - **API tests** – create, read, update and delete checks against the public practice API Restful-Booker (https://restful-booker.herokuapp.com), tagged `@api`
 
