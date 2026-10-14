@@ -1,4 +1,4 @@
-# InforQA – Test Automation Framework
+# Case Study 3 : AI Assisted BDD Test Automation Framework
 
 Self-initiated project to build hands-on test automation engineering skills, developed with AI assistance and run against the public Infor website.
 
