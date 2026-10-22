@@ -5,7 +5,7 @@
 **Built with AI assistance:** Yes. I directed the work, ran every build, debugged the failures and made the decisions; an AI assistant generated the initial code and explanations.
 
 **Repository:** https://github.com/melyroseconciso-QAPortfolio/Case-Study-3-AI-Assisted-BDD-Test-Automation-Framework
-**Live test report:** https://melyroseconciso-qaportfolio.github.io/Case-Study-3-AI-Assisted-BDD-Test-Automation-Framework/
+**Live test report:** https://melyroseconciso-qaportfolio.github.io/case-study-3-ai-assisted-bdd-test-automation-framework/
 
 ---
 
@@ -33,7 +33,7 @@ That work used the tools of its time and had **no CI/CD pipeline**, and I had no
 | Keyword-driven test cases | Plain-English Cucumber steps backed by reusable step code |
 | Data-driven and modular scripts | Scenario tables, shared Page Objects and a settings file |
 | HP ALM Test Lab (run and organise tests) | GitHub Actions pipeline with a smoke gate, plus Allure reporting |
-| Automatic failure categorisation | Planned next step: AI-assisted failure analysis (not yet built) |
+| Automatic failure categorisation | Rule-based failure triage (suspected product defect, test data, environment, flaky, test script), plus a redacted prompt that a person reviews before using an AI assistant. No AI model is integrated |
 
 ## 3. Goal and scope
 
@@ -55,6 +55,7 @@ That work used the tools of its time and had **no CI/CD pipeline**, and I had no
 | **Mobile tests** | Chrome device emulation for Pixel 7, iPhone 12 Pro and iPad Air: screen size, mobile viewport tag, and sideways-scroll check |
 | **Reporting and evidence** | Allure dashboard, screenshot on failure, API request and response attached to each API test, optional step screenshots and screen recording |
 | **Speed** | Parallel execution (three browsers at once) |
+| **Failure triage** | After every run, each failure is sorted into a category by simple rules, with the reason and a suggested next step, in a report file and in the Allure Categories tab. A redacted prompt file (no tokens, passwords, emails, IP addresses or long IDs) is produced for AI-assisted analysis with a person in the loop |
 | **CI/CD** | GitHub Actions pipeline: smoke tests run first as a quality gate; the full regression runs only if they pass; the Allure report is published automatically |
 
 ## 5. Results (measured)
@@ -63,6 +64,7 @@ That work used the tools of its time and had **no CI/CD pipeline**, and I had no
 - **Local UI-suite speed-up of about 38%** (about 84 s sequential to about 52 s with three parallel browsers).
 - **Full suite of 20 scenarios completes in about 34 seconds** in the cloud pipeline (Linux), and the first end-to-end pipeline run took under two minutes.
 - **Zero manual steps** from pushing a change to a published report.
+- **Failure triage checked on four deliberately failing demo scenarios:** all four were sorted into the expected categories (2 suspected product defects, 1 test data, 1 environment).
 
 *Note: the local and cloud timings come from different machines and environments, so they are not a like-for-like comparison.*
 
@@ -74,6 +76,7 @@ These are the part of the project I learned the most from.
 2. **Four API tests failed at once.** The report showed a 418 response on the create-booking call; the other three failures were knock-on effects, because no booking was created, so there was nothing to read, update or delete. The cause was the request's `Accept` header: my library sent a long list of content types, but the service accepts only plain `application/json`. Setting the header explicitly fixed all four. *Lesson: find the first failure in a chain before touching the others.*
 3. **Screen recordings would not play.** The default video format was not supported by Windows Media Player. Switching the recorder to a standard MJPG format fixed it.
 4. **Environment setup issues.** Maven not found on the system path, and commands run from the wrong folder. Both were small but typical of real onboarding friction, and the README now documents the setup steps.
+5. **Duplicate entries in Allure's Categories tab.** One failed check appeared under two categories, and an unreachable-address failure fell into Allure's default "Test defects". Allure files a result under every category whose pattern matches, and it reads only the error message text (which on Windows says "No such host is known"). I narrowed the product-defect pattern so it excludes failures other categories already claim, and added the missing message text. *Lesson: the same rules kept in two places (Java and Allure) can drift apart, so I check both against the same demo failures.*
 
 ## 7. Design decisions worth explaining
 
@@ -82,6 +85,7 @@ These are the part of the project I learned the most from.
 - **Smoke gate before regression:** a broken build fails in seconds instead of wasting a full regression run.
 - **Browser only where needed:** API scenarios skip the browser entirely, which keeps them fast.
 - **Evidence by default:** every failure leaves a screenshot or request/response record.
+- **Triage rules are suggestions:** the categories come from simple rules and a person confirms each one. The AI-ready prompt removes sensitive-looking values automatically, and nothing is sent anywhere automatically.
 
 ## 8. How this addresses the feedback
 
@@ -94,7 +98,7 @@ These are the part of the project I learned the most from.
 | Docker | **Dockerfile written, not yet built or run** by me |
 | Reporting and recording of test execution | **Done** (Allure, screenshots, optional video) |
 | UFT and ALM-integrated frameworks | **Done earlier in my career** (Accenture, SAP regression), not part of this project |
-| AI-driven automation (intelligent failure analysis, test optimisation) | **Not yet done.** Planned next step, building on my earlier failure-categorisation work |
+| AI-driven automation (intelligent failure analysis, test optimisation) | **Partly done.** Rule-based failure triage and a redacted, human-reviewed prompt for AI assistants. No AI model is integrated, and test optimisation is not covered |
 | UiPath RPA, Kubernetes/Helm, BrowserStack | **Not yet done** |
 
 I would rather show exactly what is proven than overstate it. The gaps above are my learning roadmap.
@@ -112,12 +116,13 @@ This section describes how I would apply the approach with a team, drawing on my
 
 - Building a framework again with modern tools showed me how much has changed since my earlier Accenture work (BDD tooling, API libraries, automated pipelines, rich reporting) and how much has stayed the same (clear structure, reusable components, trustworthy failure analysis).
 - I can now read a framework's structure, spot where it will be fragile, and ask better questions of engineers.
+- Failure triage only helps if people trust it. Showing the reason for each category, and keeping a person in the loop, matters more than the cleverness of the rules.
 - AI assistance speeds up the first draft, but the learning and the reliability come from running, breaking and fixing the code.
 - Good reporting and clear failure evidence matter as much as the tests themselves.
 
 ## 11. Next steps
 
-1. AI-assisted failure analysis: classify failures (product defect, test data, environment, flaky test) and summarise failed runs in plain English, with a clear rule on what data may be shared with an AI service.
+1. Connect an AI model to the triage step, to write plain-English failure summaries automatically, keeping the rule on what data may be shared with an AI service. Add re-runs so "flaky" can be confirmed instead of suspected.
 2. Execute and verify the Docker image and the GitLab CI pipeline.
 3. Real-device cloud testing (BrowserStack) and Appium.
 4. Explore Kubernetes/Helm-based test execution and UiPath RPA integration.
