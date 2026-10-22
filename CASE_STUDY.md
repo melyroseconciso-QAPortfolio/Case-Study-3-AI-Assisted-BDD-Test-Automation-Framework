@@ -5,7 +5,7 @@
 **Built with AI assistance:** Yes. I directed the work, ran every build, debugged the failures and made the decisions; an AI assistant generated the initial code and explanations.
 
 **Repository:** https://github.com/melyroseconciso-QAPortfolio/Case-Study-3-AI-Assisted-BDD-Test-Automation-Framework
-**Live test report:** https://melyroseconciso-qaportfolio.github.io/case-study-3-ai-assisted-bdd-test-automation-framework/
+**Live test report:** https://melyroseconciso-qaportfolio.github.io/Case-Study-3-AI-Assisted-BDD-Test-Automation-Framework/
 
 ---
 
