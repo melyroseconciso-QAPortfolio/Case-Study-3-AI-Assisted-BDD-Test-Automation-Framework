@@ -1,17 +1,17 @@
-# Case Study 3 : AI Assisted BDD Test Automation Framework
+# InforQA – Test Automation Framework
 
 Self-initiated project to build hands-on test automation engineering skills, developed with AI assistance and run against the public Infor website.
 
 A beginner-friendly web test automation framework, built with **Java, Selenium, Rest Assured, Cucumber (BDD), Maven and Allure**.
 It has two kinds of tests:
 
-- **Live test report** - https://melyroseconciso-qaportfolio.github.io/Case-Study-3-AI-Assisted-BDD-Test-Automation-Framework/
 - **Browser (UI) tests** – read-only health checks against the public Infor website (https://www.infor.com), tagged `@ui`
 - **API tests** – create, read, update and delete checks against the public practice API Restful-Booker (https://restful-booker.herokuapp.com), tagged `@api`
 
 ## Features
 
 - Page Object Model + BDD (plain-English tests in `.feature` files)
+- **Failure triage** (Phase 9): every failure is automatically sorted into a category (suspected product defect, test data, environment, flaky, test script, needs review) in a report, in the pipeline run summary and in Allure, plus a redacted, ready-to-paste prompt file for AI-assisted analysis with a person in the loop
 - **CI/CD pipelines** (GitHub Actions and GitLab CI/CD): smoke tests gate the full regression, and the Allure report is published automatically
 - **Docker**: run the whole framework in a container, with nothing installed except Docker
 - **Mobile testing** with Chrome device emulation (Pixel 7, iPhone 12 Pro, iPad Air): screen size, viewport tag and sideways-overflow checks
@@ -105,6 +105,30 @@ so `mvn allure:serve` still works. Add arguments to run a subset, e.g. `docker r
   The Allure report is saved with each run and published to GitHub Pages.
 - **GitLab CI/CD** (`.gitlab-ci.yml`): same flow with `smoke`, `regression` and `report` stages.
 
+## Failure triage
+
+After every run the framework writes `target/failure-triage/triage-report.md` (also shown on each GitHub Actions run summary)
+and `target/failure-triage/ai-prompt.md`.
+
+| Category | Typical signals |
+|---|---|
+| Suspected product defect | A check did not match what was expected; server errors (HTTP 500) |
+| Test data or configuration | HTTP 400, 401, 403, 404, 409, 422 (missing or rejected data) |
+| Environment issue | Cannot connect, unknown host, browser would not start, HTTP 502/503/504 |
+| Suspected flaky test | Timeouts, stale or intercepted elements, HTTP 429 |
+| Test script issue | Missing element, missing value, undefined step, wrong request format (HTTP 405/406/415/418) |
+| Needs human review | No rule matched |
+
+The categories are **rule-based suggestions**, not AI, and a person should confirm each one. They are also grouped in the Allure report under Categories.
+
+**See it work:** these scenarios fail on purpose and are skipped in normal runs. Run them with
+`mvn clean test -Dcucumber.filter.tags="@triage-demo"` and open `target/failure-triage/triage-report.md`.
+
+**AI-assisted analysis with a person in the loop:** `ai-prompt.md` contains only scenario names, failing steps, suggested categories and
+short error messages, with tokens, passwords, emails, IP addresses and long IDs removed automatically. Review it, then paste it into
+an AI assistant your organisation allows. Never add screenshots, cookies, request bodies or real customer data. No API key is used and
+nothing is sent anywhere automatically.
+
 ## Notes on the API tests
 
 Restful-Booker is a shared public practice service. It resets itself regularly and can occasionally be slow or unavailable,
@@ -125,4 +149,4 @@ Be considerate: these tests only read pages. Do not add tests that submit forms 
 - [ ] Phase 6b: BrowserStack real devices, Appium
 - [x] Phase 7: Dockerfile, GitHub Actions and GitLab CI/CD pipelines
 - [ ] Phase 8: Kubernetes/Helm Selenium Grid, UiPath bot
-- [ ] Phase 9: AI-assisted failure analysis
+- [x] Phase 9: Failure triage (rule-based) with an AI-ready, redacted prompt; direct AI model integration not built
