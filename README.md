@@ -147,6 +147,7 @@ Be considerate: these tests only read pages. Do not add tests that submit forms 
 - [x] Phase 5: API tests with Rest Assured
 - [x] Phase 6a: Mobile device emulation (Chrome)
 - [ ] Phase 6b: BrowserStack real devices, Appium
-- [x] Phase 7: Dockerfile, GitHub Actions and GitLab CI/CD pipelines
+- [x] Phase 7a: GitHub Actions pipeline (smoke gate, full regression, published Allure report)
+- [ ] Phase 7b: Run the Dockerfile locally and the GitLab CI/CD pipeline (files written, not yet executed)
 - [ ] Phase 8: Kubernetes/Helm Selenium Grid, UiPath bot
 - [x] Phase 9: Failure triage (rule-based) with an AI-ready, redacted prompt; direct AI model integration not built
