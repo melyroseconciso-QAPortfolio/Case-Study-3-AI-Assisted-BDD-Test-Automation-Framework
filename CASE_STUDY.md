@@ -55,7 +55,7 @@ That work used the tools of its time and had **no CI/CD pipeline**, and I had no
 | **Mobile tests** | Chrome device emulation for Pixel 7, iPhone 12 Pro and iPad Air: screen size, mobile viewport tag, and sideways-scroll check |
 | **Reporting and evidence** | Allure dashboard, screenshot on failure, API request and response attached to each API test, optional step screenshots and screen recording |
 | **Speed** | Parallel execution (three browsers at once) |
-| **Failure triage** | After every run, each failure is sorted into a category by simple rules, with the reason and a suggested next step, in a report file and in the Allure Categories tab. A redacted prompt file (no tokens, passwords, emails, IP addresses or long IDs) is produced for AI-assisted analysis with a person in the loop |
+| **Failure triage** | After every run, each failure is sorted into a category by simple rules, with the reason and a suggested next step, in a report file, in the Allure Categories tab and on the summary page of every pipeline run. A redacted prompt file (no tokens, passwords, emails, IP addresses or long IDs) is produced for AI-assisted analysis with a person in the loop |
 | **CI/CD** | GitHub Actions pipeline: smoke tests run first as a quality gate; the full regression runs only if they pass; the Allure report is published automatically |
 
 ## 5. Results (measured)
@@ -65,6 +65,7 @@ That work used the tools of its time and had **no CI/CD pipeline**, and I had no
 - **Full suite of 20 scenarios completes in about 34 seconds** in the cloud pipeline (Linux), and the first end-to-end pipeline run took under two minutes.
 - **Zero manual steps** from pushing a change to a published report.
 - **Failure triage checked on four deliberately failing demo scenarios:** all four were sorted into the expected categories (2 suspected product defects, 1 test data, 1 environment).
+- **Failure triage in the pipeline:** every run shows a triage report on its summary page (a clean run states "No failures to triage") and saves the report files with the run's evidence.
 
 *Note: the local and cloud timings come from different machines and environments, so they are not a like-for-like comparison.*
 
