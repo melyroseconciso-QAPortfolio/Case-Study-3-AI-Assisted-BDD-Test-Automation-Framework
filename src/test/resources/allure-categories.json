@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Environment issues",
+    "matchedStatuses": ["failed", "broken"],
+    "messageRegex": "(?s).*(SessionNotCreated|session not created|UnknownHost|No such host|Name or service not known|Temporary failure in name resolution|nodename nor servname|ConnectException|Connection refused|SSLHandshake|ERR_NAME_NOT_RESOLVED|ERR_CONNECTION|Bad Gateway|Service Unavailable|HTTP status.*but was:\\s*50[234]).*"
+  },
+  {
+    "name": "Suspected flaky tests",
+    "matchedStatuses": ["failed", "broken"],
+    "messageRegex": "(?s).*(TimeoutException|timed out|StaleElementReference|ElementClickIntercepted|ElementNotInteractable|HTTP status.*but was:\\s*429).*"
+  },
+  {
+    "name": "Test data or configuration",
+    "matchedStatuses": ["failed", "broken"],
+    "messageRegex": "(?s).*HTTP status.*but was:\\s*(400|401|403|404|409|422).*"
+  },
+  {
+    "name": "Test script issues",
+    "matchedStatuses": ["failed", "broken"],
+    "messageRegex": "(?s).*(NoSuchElement|NullPointer|IllegalArgument|UndefinedStep|HTTP status.*but was:\\s*(405|406|415|418)).*"
+  },
+  {
+    "name": "Suspected product defects",
+    "matchedStatuses": ["failed"],
+    "messageRegex": "(?s)(?!.*(TimeoutException|timed out|StaleElementReference|ElementClickIntercepted|ElementNotInteractable|NoSuchElement|NullPointer|IllegalArgument|UndefinedStep|UnknownHost|No such host|Name or service not known|ConnectException|Connection refused|SSLHandshake|ERR_NAME_NOT_RESOLVED|ERR_CONNECTION|Bad Gateway|Service Unavailable|HTTP status.*but was:\\s*(400|401|403|404|405|406|409|415|418|422|429|502|503|504))).*(expected|Expecting|but was|should).*"
+  }
+]

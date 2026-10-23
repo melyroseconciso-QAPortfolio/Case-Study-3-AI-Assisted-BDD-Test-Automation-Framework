@@ -27,6 +27,11 @@ public final class ApiClient {
         return request().when().get(path);
     }
 
+    /** Calls a full web address instead of the configured API (used by the triage demo). */
+    public static Response getAbsolute(String fullUrl) {
+        return RestAssured.given().filter(new AllureRestAssured()).when().get(fullUrl);
+    }
+
     public static Response post(String path, String jsonBody) {
         return request().body(jsonBody).when().post(path);
     }

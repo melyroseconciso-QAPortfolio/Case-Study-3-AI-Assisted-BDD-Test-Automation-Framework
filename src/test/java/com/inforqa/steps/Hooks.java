@@ -9,9 +9,11 @@ import io.cucumber.java.Before;
 import io.cucumber.java.BeforeAll;
 import io.cucumber.java.Scenario;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.Properties;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -38,6 +40,12 @@ public class Hooks {
             Files.createDirectories(folder);
             try (OutputStream out = Files.newOutputStream(folder.resolve("environment.properties"))) {
                 info.store(out, null);
+            }
+            // Lets the Allure report group failures into categories (Phase 9).
+            try (InputStream categories = Hooks.class.getClassLoader().getResourceAsStream("allure-categories.json")) {
+                if (categories != null) {
+                    Files.copy(categories, folder.resolve("categories.json"), StandardCopyOption.REPLACE_EXISTING);
+                }
             }
         } catch (IOException e) {
             System.out.println("Could not write Allure environment info: " + e.getMessage());

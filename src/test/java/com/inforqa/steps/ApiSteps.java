@@ -24,6 +24,12 @@ public class ApiSteps {
         ctx.response = ApiClient.get(path);
     }
 
+    @When("I send a GET request to an address that does not exist")
+    public void iSendAGetRequestToAnAddressThatDoesNotExist() {
+        // The .invalid ending is reserved, so this can never reach a real website.
+        ctx.response = ApiClient.getAbsolute("https://this-host-does-not-exist.invalid/ping");
+    }
+
     @Then("the response status should be {int}")
     public void theResponseStatusShouldBe(int expected) {
         assertThat(ctx.response.getStatusCode()).as("HTTP status code").isEqualTo(expected);
